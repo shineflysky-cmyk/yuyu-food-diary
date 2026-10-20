@@ -19,6 +19,7 @@
 <div class="zoom" id="zoom" onclick="this.classList.remove('visible')"><button class="close" aria-label="關閉">×</button><img id="zoomImg" alt="放大的飲食小卡"></div>
 <script>
 const repo='shineflysky-cmyk/yuyu-food-diary';
+const version='20261021';
 const rawBase=`https://raw.githubusercontent.com/${repo}/main/cards/`;
 const api=`https://api.github.com/repos/${repo}/contents/cards?ref=main`;
 let cards=[];
@@ -28,9 +29,9 @@ function render(){
  const tabs=document.getElementById('tabs'),gallery=document.getElementById('gallery');
  tabs.innerHTML='<button class="active" onclick="filterDay(\'all\',this)">全部日記</button>';
  cards.forEach(c=>{const d=c.name.slice(5,10).replace('-','/');tabs.innerHTML+=`<button onclick="filterDay('${d}',this)">${d}</button>`});
- gallery.innerHTML=cards.map(c=>{const d=c.name.slice(5,10).replace('-','/');const full=c.name.slice(0,10);return `<article class="card" data-date="${d}"><button class="pic" aria-label="放大${d}完整Q版日記" onclick="zoom(this)"><img loading="lazy" src="${rawBase}${c.name}" alt="${full} 魚魚專屬Q版飲食日記"></button><div class="meta"><div class="date">${full}</div><p>點擊小卡可放大查看完整內容 ♡</p></div></article>`}).join('');
+ gallery.innerHTML=cards.map(c=>{const d=c.name.slice(5,10).replace('-','/');const full=c.name.slice(0,10);const src=`${rawBase}${c.name}?v=${version}`;return `<article class="card" data-date="${d}"><button class="pic" aria-label="放大${d}完整Q版日記" onclick="zoom(this)"><img loading="lazy" src="${src}" alt="${full} 魚魚專屬Q版飲食日記"></button><div class="meta"><div class="date">${full}</div><p>點擊小卡可放大查看完整內容 ♡</p></div></article>`}).join('');
 }
-fetch(api).then(r=>r.json()).then(list=>{cards=list.filter(x=>/^2026-\d\d-\d\d\.svg$/.test(x.name)).sort((a,b)=>b.name.localeCompare(a.name));render()}).catch(()=>{cards=[{name:'2026-10-20.svg'},{name:'2026-10-18.svg'}];render()});
+fetch(api).then(r=>r.json()).then(list=>{cards=list.filter(x=>/^2026-\d\d-\d\d\.svg$/.test(x.name)).sort((a,b)=>b.name.localeCompare(a.name));render()}).catch(()=>{cards=[{name:'2026-10-20.svg'},{name:'2026-10-19.svg'},{name:'2026-10-18.svg'}];render()});
 </script>
 </body>
 </html>
